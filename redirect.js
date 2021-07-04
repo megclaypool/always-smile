@@ -4,8 +4,8 @@ chrome.webRequest.onBeforeRequest.addListener(
     if (details.url.match(/redirect=true/)) {
       return;
     }
-    var match = details.url.match(/^(http|https):\/\/www.amazon.com\/([\S\s]*)/);
-    return {redirectUrl: match[1] + "://smile.amazon.com/" + match[2]};
+    var match = details.url.match(/^(http|https):\/\/(?:www|us).amazon.([\w.]+)(?:\/)([\S\s]*)/);
+    return {redirectUrl: match[1] + "://smile.amazon." + match[2] + (match[3] ? '/' + match[3])};
   },
   {urls: ["*://www.amazon.com/*"]},
   ["blocking"]
